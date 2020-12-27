@@ -21,13 +21,13 @@ class Main {
         Object firstName, lastName, sex, university, bdate;
         String cityName;
         String api = "https://api.vk.com/method/groups.getMembers?" +
-                "group_id=iritrtf_urfu&fields=bdate,city,sex,universities&access_token=" +
+                "group_id=iritrtf_urfu&fields=bdate,city,sex,education&access_token=" +
                 "f5493d1ef5493d1ef5493d1e03f53ddc23ff549f5493d1eaae58a467485251565e27d2a&v=5.126";
         URL url = new URL(api);
         URLConnection connection = url.openConnection();
-        BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String line = readAll(rd);
-        rd.close();
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String line = readAll(buffer);
+        buffer.close();
 
         JSONObject members = new JSONObject(line);
         JSONArray arrayOfMembers = members.getJSONObject("response").getJSONArray("items");
@@ -52,8 +52,7 @@ class Main {
             }
 
             try {
-                JSONObject education = info.getJSONArray("universities").getJSONObject(0);
-                university = education.getString("name");
+                university = info.getString("university_name");
             } catch (Exception e) {
                 university = "hidden";
             }
